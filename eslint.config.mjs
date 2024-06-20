@@ -17,6 +17,6 @@ export default [
     },
   },
   {
-    ignores: ["**/*.config.*", "**/*.json"],
+    ignores: ["**/*.config.*", "**/*.json", "build"],
   },
 ];

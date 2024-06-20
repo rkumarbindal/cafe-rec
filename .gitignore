@@ -1,2 +1,4 @@
 node_modules
 .idx
+build
+tsconfig.tsbuildinfo
