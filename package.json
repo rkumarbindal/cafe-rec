@@ -21,7 +21,7 @@
     "typescript-eslint": "^7.10.0"
   },
   "dependencies": {
-    "mysql": "^2.18.1",
+    "mysql2": "^3.10.1",
     "readline-sync": "^1.4.10"
   }
 }

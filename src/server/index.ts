@@ -1,6 +1,9 @@
 import { createServer, Socket } from 'net';
 import { Constants } from '../utils/constants';
 import AuthService from '../services/auth-service';
+import databaseService from '../services/database';
+
+databaseService.init();
 
 const PORT = Constants.PORT;
 const HOST = Constants.HOST;
@@ -47,6 +50,8 @@ const handleAuthenticatedCommands = (socket: Socket, message: string) => {
 
 const server = createServer((socket) => {
     console.log('Client connected');
+    // FIXME
+    databaseService.select();
     socket.on('data', (data) => { handleData(socket, data); });
     socket.on('end', () => { handleClientDisconnect(socket); });
     socket.on('error', (err) => { handleError(socket, err); });
