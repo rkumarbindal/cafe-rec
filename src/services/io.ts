@@ -6,6 +6,12 @@ class IO {
         console.log(message);
     }
 
+    printDebug(message: string): void {
+        console.log('DEBUG---------');
+        console.log(message);
+        console.log('DEBUG---------');
+    }
+
     getInput(prompt: string): string {
         return question(prompt);
     }
@@ -22,14 +28,15 @@ class IO {
             const input = this.getInput('Enter the number of your choice: ');
             const choice = parseInt(input, 10);
 
-            if (this.isValidInput(choice, options)) {
+            if (this.isInValidInput(choice, options)) {
+                console.log('Invalid choice. Please try again.');
+            } else {
                 return choice;
             }
-            console.log('Invalid choice. Please try again.');
         }
     }
 
-    private isValidInput(choice: number, options: string[]): boolean {
+    private isInValidInput(choice: number, options: string[]): boolean {
         return isNaN(choice) || choice < 1 || choice > options.length;
     }
 }
