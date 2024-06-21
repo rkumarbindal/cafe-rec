@@ -1,7 +1,7 @@
 import { createServer, Socket } from 'net';
-import { Constants } from '../utils/constants';
-import AuthService from '../services/auth-service';
-import databaseService from '../services/database';
+import { Constants } from '../../utils/constants';
+import AuthService from '../../services/auth-service';
+import databaseService from '../../services/database';
 
 databaseService.init().then(() => {
     console.log('Connect to database');
@@ -14,9 +14,9 @@ const HOST = Constants.HOST;
 
 const authenticatedClients = new Map<Socket, boolean>();
 
-const handleLogin = (socket: Socket, credentials: string[]) => {
+const handleLogin = async (socket: Socket, credentials: string[]) => {
     const authService = new AuthService(socket);
-    const isLoginSuccess = authService.login(socket, credentials);
+    const isLoginSuccess = await authService.login(socket, credentials);
     if (isLoginSuccess) {
         authenticatedClients.set(socket, true);
     }
@@ -32,7 +32,7 @@ const handleData = (socket: Socket, data: Buffer) => {
     const [command, ...credentials] = message.split(' ');
     switch (command) {
         case 'LOGIN':
-            handleLogin(socket, credentials);
+            void handleLogin(socket, credentials);
             break;
         case 'LOGOUT':
             handleLogout(socket);

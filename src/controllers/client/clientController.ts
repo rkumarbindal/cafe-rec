@@ -1,6 +1,8 @@
 import { createConnection } from 'net';
-import io from '../services/io';
-import { Constants } from '../utils/constants';
+import io from '../../services/io';
+import { Constants } from '../../utils/constants';
+import { Role } from '../../types/user';
+import AdminController from '../admin-controller';
 
 const PORT = Constants.PORT;
 const HOST = Constants.HOST;
@@ -12,10 +14,28 @@ const client = createConnection({ port: PORT, host: HOST }, () => {
 
 client.on('data', (data) => {
     const message = data.toString().trim();
+    // TODO: Remove this
     io.print(`\nServer: ${message}\n`);
-    if (message === 'LOGIN_SUCCESS') {
-        showMenu();
-    } else if (message === 'LOGIN_FAIL') {
+
+    if (message === Role.Admin.toString()) {
+        console.log('Welcome Admin');
+        const adminController = new AdminController(client);
+        adminController.showDisplayMenu();
+    }
+
+    if (message === Role.Employee.toString()) {
+        console.log('Welcome Employee');
+        const adminController = new AdminController(client);
+        adminController.showDisplayMenu();
+    }
+
+    if (message === Role.Chef.toString()) {
+        console.log('Welcome Chef');
+        const adminController = new AdminController(client);
+        adminController.showDisplayMenu();
+    }
+
+    if (message === 'LOGIN_FAIL') {
         io.print('Invalid credentials. Please try again.');
         promptLogin();
     } else if (message === 'LOGOUT_SUCCESS') {
